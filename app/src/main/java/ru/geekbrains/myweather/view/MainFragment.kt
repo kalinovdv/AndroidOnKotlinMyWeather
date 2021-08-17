@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import ru.geekbrains.myweather.R
 import ru.geekbrains.myweather.databinding.MainFragmentBinding
+import ru.geekbrains.myweather.model.Weather
 import ru.geekbrains.myweather.viewmodel.AppState
 import ru.geekbrains.myweather.viewmodel.MainViewModel
 
@@ -34,7 +36,7 @@ class MainFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.getData().observe(viewLifecycleOwner, {renderData(it as AppState)})
-        viewModel.getWeather()
+        viewModel.getWeatherFromLocalSource()
     }
 
     override fun onDestroy() {
@@ -50,15 +52,24 @@ class MainFragment : Fragment() {
             is AppState.Seccess -> {
                 val weatherData = appState.weatherData
                 binding.loadingLayout.visibility = View.GONE
-                Snackbar.make(binding.mainView, "Загрузка завершена", Snackbar.LENGTH_LONG).show()
+                setData(weatherData)
             }
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE
                 Snackbar.make(binding.mainView, "Ошибка загрузки", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Перезагрузка") { viewModel.getWeather()}
+                    .setAction("Перезагрузка") { viewModel.getWeatherFromLocalSource()}
                     .show()
             }
         }
+    }
+
+    private fun setData(weatherData: Weather) {
+        binding.cityName.text = weatherData.city.city
+        binding.cityCoordinates.text = String.format(getString(R.string.city_coordinates),
+            weatherData.city.lat.toString(),
+            weatherData.city.lon.toString())
+        binding.temperatureValue.text = weatherData.temperature.toString()
+        binding.feelsLikeValue.text = weatherData.feelsLike.toString()
     }
 
 }
