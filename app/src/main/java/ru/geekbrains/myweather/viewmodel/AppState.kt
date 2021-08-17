@@ -1,4 +1,4 @@
-package ru.geekbrains.myweather.view
+package ru.geekbrains.myweather.viewmodel
 
 sealed class AppState {
     data class Seccess(val weatherData : Any) : AppState()

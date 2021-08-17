@@ -3,7 +3,6 @@ package ru.geekbrains.myweather.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import ru.geekbrains.myweather.view.AppState
 import java.lang.Thread.sleep
 
 class MainViewModel(private val liveDataToObserve : MutableLiveData<Any> = MutableLiveData()) : ViewModel() {
