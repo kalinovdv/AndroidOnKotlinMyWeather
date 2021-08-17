@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import ru.geekbrains.myweather.databinding.MainFragmentBinding
 import ru.geekbrains.myweather.viewmodel.MainViewModel
 
@@ -33,8 +32,8 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        val observer = Observer<Any> { renderData(it)}
-        viewModel.getData().observe(viewLifecycleOwner, observer)
+        viewModel.getData().observe(viewLifecycleOwner, {renderData(it as AppState)})
+        viewModel.getWeather()
     }
 
     override fun onDestroy() {
@@ -42,8 +41,23 @@ class MainFragment : Fragment() {
         _binding = null
     }
 
-    private fun renderData(data: Any?) {
-        Toast.makeText(context, "Данные получены", Toast.LENGTH_LONG).show()
+    private fun renderData(appState: AppState) {
+        when(appState) {
+            is AppState.Loading -> {
+                binding.loadingLayout.visibility = View.VISIBLE
+            }
+            is AppState.Seccess -> {
+                val weatherData = appState.weatherData
+                binding.loadingLayout.visibility = View.GONE
+                Snackbar.make(binding.mainView, "Загрузка завершена", Snackbar.LENGTH_LONG).show()
+            }
+            is AppState.Error -> {
+                binding.loadingLayout.visibility = View.GONE
+                Snackbar.make(binding.mainView, "Ошибка загрузки", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Перезагрузка") { viewModel.getWeather()}
+                    .show()
+            }
+        }
     }
 
 }
