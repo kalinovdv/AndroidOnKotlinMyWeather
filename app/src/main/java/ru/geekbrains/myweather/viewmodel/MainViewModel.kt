@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.geekbrains.myweather.model.RepositoryImpl
+import java.lang.Thread.sleep
 
 class MainViewModel(private val liveDataToObserve : MutableLiveData<Any> = MutableLiveData(),
                     private val repositoryImpl: RepositoryImpl = RepositoryImpl()
@@ -20,17 +21,11 @@ class MainViewModel(private val liveDataToObserve : MutableLiveData<Any> = Mutab
     }
 
     private fun getDataFromLocalSource() {
-        val stateRandom = (0..4).random()
-        when (stateRandom){
-            1 -> liveDataToObserve.value = AppState.Loading
-            2 -> liveDataToObserve.value = AppState.Seccess(repositoryImpl.getWeatherFromLocalStorage())
-            3 -> {/*обработка ошибок*/}
-        }
-        /*liveDataToObserve.value = AppState.Loading
+        liveDataToObserve.value = AppState.Loading
         Thread{
             sleep(3000)
             liveDataToObserve.postValue(AppState.Seccess(repositoryImpl.getWeatherFromLocalStorage()))
-        }.start()*/
+        }.start()
     }
 
 }
