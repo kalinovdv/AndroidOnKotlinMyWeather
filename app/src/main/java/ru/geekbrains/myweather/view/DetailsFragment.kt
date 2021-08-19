@@ -1,3 +1,4 @@
+/*
 package ru.geekbrains.myweather.view
 
 import android.os.Bundle
@@ -13,13 +14,13 @@ import ru.geekbrains.myweather.model.Weather
 import ru.geekbrains.myweather.viewmodel.AppState
 import ru.geekbrains.myweather.viewmodel.MainViewModel
 
-class MainFragment : Fragment() {
+class DetailsFragment : Fragment() {
 
     private var _binding : MainFragmentBinding? = null
     private val binding get() = _binding!!
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = DetailsFragment()
     }
 
     private lateinit var viewModel: MainViewModel
@@ -72,4 +73,4 @@ class MainFragment : Fragment() {
         binding.feelsLikeValue.text = weatherData.feelsLike.toString()
     }
 
-}
+}*/
