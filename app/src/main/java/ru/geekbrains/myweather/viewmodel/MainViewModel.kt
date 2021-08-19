@@ -24,7 +24,7 @@ class MainViewModel(private val liveDataToObserve : MutableLiveData<Any> = Mutab
         liveDataToObserve.value = AppState.Loading
         Thread{
             sleep(3000)
-            liveDataToObserve.postValue(AppState.Seccess(repositoryImpl.getWeatherFromLocalStorage()))
+            liveDataToObserve.postValue(AppState.Seccess(repositoryImpl.getWeatherFromLocalStorageRus()))
         }.start()
     }
 
