@@ -12,19 +12,21 @@ class MainViewModel(private val liveDataToObserve : MutableLiveData<Any> = Mutab
 
     fun getLiveData() = liveDataToObserve
 
-    fun getWeatherFromLocalSource() = getDataFromLocalSource()
-    fun getWeatherFromRemoteSource() = getDataFromLocalSource()
+    fun getWeatherFromLocalSourceRus() = getDataFromLocalSource(true)
+    fun getWeatherFromLocalSourceWorld() = getDataFromLocalSource(false)
+    fun getWeatherFromRemoteSource() = getDataFromLocalSource(true)
 
-    fun getData() : LiveData<Any> {
+    /*fun getData() : LiveData<Any> {
         getDataFromLocalSource()
         return liveDataToObserve
-    }
+    }*/
 
-    private fun getDataFromLocalSource() {
+    private fun getDataFromLocalSource(isRussian : Boolean) {
         liveDataToObserve.value = AppState.Loading
         Thread{
-            sleep(3000)
-            liveDataToObserve.postValue(AppState.Seccess(repositoryImpl.getWeatherFromLocalStorageRus()))
+            sleep(2000)
+            liveDataToObserve.postValue(AppState.Seccess(if (isRussian) repositoryImpl.getWeatherFromLocalStorageRus()
+                                                            else repositoryImpl.getWeatherFromLocalStorageWorld()))
         }.start()
     }
 
