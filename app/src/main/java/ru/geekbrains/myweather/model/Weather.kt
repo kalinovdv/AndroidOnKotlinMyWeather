@@ -1,10 +1,14 @@
 package ru.geekbrains.myweather.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Weather(
     val city: City = getDefaultCity(),
     val temperature : Int = 0,
     val feelsLike : Int = 0
-)
+) : Parcelable
 
 fun getDefaultCity() = City("Ульяновск", 54.32824, 48.38657)
 

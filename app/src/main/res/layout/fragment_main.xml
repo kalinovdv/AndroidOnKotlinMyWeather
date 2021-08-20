@@ -18,7 +18,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_russia"
+        app:tint="@null"
+        app:srcCompat="@drawable/ic_russia"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="@dimen/fab_icon_size" />
@@ -26,7 +27,7 @@
         android:id="@+id/mainFragmentLoadingLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/cardview_shadow_start_color"
+        android:background="@color/loadingBackground"
         android:visibility="gone"
         tools:visibility="visible">
         <ProgressBar

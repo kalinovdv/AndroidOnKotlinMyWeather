@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.myweather.R
 import ru.geekbrains.myweather.model.Weather
 
-class MainFragmentAdapter: RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
+class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnItemViewClickListener?) : RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
 
     private var weatherData: List<Weather> = listOf()
 
@@ -22,7 +22,10 @@ class MainFragmentAdapter: RecyclerView.Adapter<MainFragmentAdapter.MainViewHold
         fun bind(weather: Weather) {
             itemView.findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text = weather.city.city
             itemView.setOnClickListener {
-                Toast.makeText(itemView.context, weather.city.city, Toast.LENGTH_SHORT).show()
+                //Toast.makeText(itemView.context, weather.city.city, Toast.LENGTH_SHORT).show()
+                itemView.setOnClickListener {
+                    onItemViewClickListener?.onItemViewClick(weather)
+                }
             }
         }
     }
@@ -37,5 +40,9 @@ class MainFragmentAdapter: RecyclerView.Adapter<MainFragmentAdapter.MainViewHold
 
     override fun getItemCount(): Int {
         return weatherData.size
+    }
+
+    fun removeListener() {
+        onItemViewClickListener = null
     }
 }
