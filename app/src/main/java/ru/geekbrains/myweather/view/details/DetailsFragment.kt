@@ -1,33 +1,29 @@
-package ru.geekbrains.myweather.view
+package ru.geekbrains.myweather.view.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.snackbar.Snackbar
 import ru.geekbrains.myweather.R
 import ru.geekbrains.myweather.databinding.FragmentDetailsBinding
 import ru.geekbrains.myweather.model.Weather
-import ru.geekbrains.myweather.viewmodel.AppState
-import ru.geekbrains.myweather.viewmodel.MainViewModel
 
 class DetailsFragment : Fragment() {
 
-    private var _binding : FragmentDetailsBinding? = null
+    private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
 
     companion object {
         const val BUNDLE_EXTRA = "weather"
-        fun newInstance(bundle: Bundle) : DetailsFragment{
+        fun newInstance(bundle: Bundle): DetailsFragment {
             val fragment = DetailsFragment()
             fragment.arguments = bundle
             return fragment
         }
     }
 
-    private lateinit var viewModel: MainViewModel
+//    private lateinit var viewModel: MainViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,13 +35,22 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val weather = arguments?.getParcelable<Weather>(BUNDLE_EXTRA)
-        if (weather != null) {
-            val city = weather.city
-            binding.cityName.text = city.city
-            binding.cityCoordinates.text = String.format(getString(R.string.city_coordinates), city.lat.toString(), city.lon.toString())
-            binding.temperatureValue.text = weather.temperature.toString()
-            binding.feelsLikeValue.text = weather.feelsLike.toString()
+
+        arguments?.getParcelable<Weather>(BUNDLE_EXTRA).let { weather ->
+            weather?.city.also { city ->
+                with(binding, {
+                    with(weather) {
+                        cityName.text = city?.name
+                        cityCoordinates.text = String.format(
+                            getString(R.string.city_coordinates),
+                            city?.lat.toString(),
+                            city?.lon.toString()
+                        )
+                        temperatureValue.text = this?.temperature.toString()
+                        feelsLikeValue.text = this?.feelsLike.toString()
+                    }
+                })
+            }
         }
     }
 

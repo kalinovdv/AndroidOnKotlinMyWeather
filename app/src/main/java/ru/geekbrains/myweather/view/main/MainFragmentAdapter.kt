@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.myweather.R
 import ru.geekbrains.myweather.model.Weather
@@ -20,7 +19,7 @@ class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnIt
 
     inner class MainViewHolder(view: View): RecyclerView.ViewHolder(view) {
         fun bind(weather: Weather) {
-            itemView.findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text = weather.city.city
+            itemView.findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text = weather.city.name
             itemView.setOnClickListener {
                 //Toast.makeText(itemView.context, weather.city.city, Toast.LENGTH_SHORT).show()
                 itemView.setOnClickListener {

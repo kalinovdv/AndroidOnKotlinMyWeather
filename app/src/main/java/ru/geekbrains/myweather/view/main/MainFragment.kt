@@ -10,7 +10,7 @@ import com.google.android.material.snackbar.Snackbar
 import ru.geekbrains.myweather.R
 import ru.geekbrains.myweather.databinding.FragmentMainBinding
 import ru.geekbrains.myweather.model.Weather
-import ru.geekbrains.myweather.view.DetailsFragment
+import ru.geekbrains.myweather.view.details.DetailsFragment
 import ru.geekbrains.myweather.viewmodel.AppState
 import ru.geekbrains.myweather.viewmodel.MainViewModel
 
