@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.myweather.R
 import ru.geekbrains.myweather.model.Weather
 
-class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnItemViewClickListener?) : RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
+class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnItemViewClickListener?) :
+    RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
 
     private var weatherData: List<Weather> = listOf()
 
@@ -17,12 +18,12 @@ class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnIt
         notifyDataSetChanged()
     }
 
-    inner class MainViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    inner class MainViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(weather: Weather) {
-            itemView.findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text = weather.city.name
-            itemView.setOnClickListener {
-                //Toast.makeText(itemView.context, weather.city.city, Toast.LENGTH_SHORT).show()
-                itemView.setOnClickListener {
+            with(itemView) {
+                findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text =
+                    weather.city.name
+                setOnClickListener {
                     onItemViewClickListener?.onItemViewClick(weather)
                 }
             }
@@ -30,7 +31,10 @@ class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnIt
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        return MainViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.fragment_main_recycler_item, parent, false) as View)
+        return MainViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.fragment_main_recycler_item, parent, false) as View
+        )
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
