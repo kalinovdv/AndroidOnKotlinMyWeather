@@ -21,17 +21,18 @@ class MainFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
     private val adapter = MainFragmentAdapter(object : OnItemViewClickListener {
         override fun onItemViewClick(weather: Weather) {
-            val manager = activity?.supportFragmentManager
-            if (manager != null) {
-                val bundle = Bundle()
-                bundle.putParcelable(DetailsFragment.BUNDLE_EXTRA, weather)
-                manager.beginTransaction()
-                    .add(R.id.container, DetailsFragment.newInstance(bundle))
-                    .addToBackStack("")
-                    .commitAllowingStateLoss()
+            activity?.supportFragmentManager.let {
+                with(Bundle()) {
+                    putParcelable(DetailsFragment.BUNDLE_EXTRA, weather)
+                    it?.beginTransaction()
+                        ?.add(R.id.container, DetailsFragment.newInstance(this))
+                        ?.addToBackStack("")
+                        ?.commitAllowingStateLoss()
+                }
             }
         }
     })
+
     private var isDataSetRus: Boolean = true
 
     override fun onCreateView(
@@ -47,9 +48,10 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.mainFragmentRecyclerView?.adapter = adapter
         binding?.mainFragmentFAB?.setOnClickListener { changeWeatherDataSet() }
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it as AppState) })
-        viewModel.getWeatherFromLocalSourceRus()
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java).also {
+            it.getLiveData().observe(viewLifecycleOwner, { renderData(it as AppState) })
+            it.getWeatherFromLocalSourceRus()
+        }
     }
 
     override fun onDestroy() {
@@ -89,8 +91,7 @@ class MainFragment : Fragment() {
         } else {
             viewModel.getWeatherFromLocalSourceRus()
             binding?.mainFragmentFAB?.setImageResource(R.drawable.ic_russia)
-        }
-        isDataSetRus = !isDataSetRus
+        }.also { isDataSetRus = !isDataSetRus }
     }
 
     companion object {
@@ -99,4 +100,5 @@ class MainFragment : Fragment() {
 
     interface OnItemViewClickListener {
         fun onItemViewClick(weather: Weather)
-    }}
+    }
+}
