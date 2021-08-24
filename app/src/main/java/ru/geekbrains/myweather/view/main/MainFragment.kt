@@ -48,7 +48,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.mainFragmentRecyclerView?.adapter = adapter
         binding?.mainFragmentFAB?.setOnClickListener { changeWeatherDataSet() }
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java).also {
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java).also { it ->
             it.getLiveData().observe(viewLifecycleOwner, { renderData(it as AppState) })
             it.getWeatherFromLocalSourceRus()
         }
@@ -71,17 +71,22 @@ class MainFragment : Fragment() {
             }
             is AppState.Error -> {
                 binding?.mainFragmentLoadingLayout?.visibility = View.GONE
-                Snackbar
-                    .make(
-                        binding?.mainFragmentFAB!!, getString(R.string.error),
-                        Snackbar.LENGTH_INDEFINITE
-                    )
-                    .setAction(getString(R.string.reload)) {
-                        viewModel.getWeatherFromLocalSourceRus()
-                    }
-                    .show()
+                binding?.mainFragmentRootView?.showSnackBar(
+                    getString(R.string.error),
+                    getString(R.string.reload),
+                    {viewModel.getWeatherFromLocalSourceRus()}
+                )
             }
         }
+    }
+
+    private fun View.showSnackBar(
+        text: String,
+        actionText: String,
+        action: (View) -> Unit,
+        length: Int = Snackbar.LENGTH_INDEFINITE
+    ) {
+        Snackbar.make(this, text, length).setAction(actionText, action).show()
     }
 
     private fun changeWeatherDataSet() {
