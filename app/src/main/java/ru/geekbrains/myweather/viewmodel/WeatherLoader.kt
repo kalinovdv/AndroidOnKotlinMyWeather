@@ -5,18 +5,22 @@ import android.os.Handler
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
-import ru.geekbrains.myweather.model.API_KEY
-import ru.geekbrains.myweather.model.LOG
+import ru.geekbrains.myweather.BuildConfig
 import ru.geekbrains.myweather.model.WeatherDTO
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.lang.Exception
 import java.net.MalformedURLException
 import java.net.URL
 import java.util.stream.Collectors
 import javax.net.ssl.HttpsURLConnection
 
-class WeatherLoader(private val listener: WeatherLoadListener, private val lat: Double, private val lon: Double) {
+class WeatherLoader(
+    private val listener: WeatherLoadListener,
+    private val lat: Double,
+    private val lon: Double
+) {
+
+    private val LOG = "mylog"
 
     @RequiresApi(Build.VERSION_CODES.N)
     fun loadWeather() {
@@ -28,7 +32,7 @@ class WeatherLoader(private val listener: WeatherLoadListener, private val lat: 
                 try {
                     urlConnection = uri.openConnection() as HttpsURLConnection
                     urlConnection.requestMethod = "GET"
-                    urlConnection.addRequestProperty("X-Yandex-API-Key", API_KEY)
+                    urlConnection.addRequestProperty("X-Yandex-API-Key", BuildConfig.WEATHER_API_KEY)
                     urlConnection.readTimeout = 10000
                     val bufferedReader =
                         BufferedReader(InputStreamReader(urlConnection.inputStream))
