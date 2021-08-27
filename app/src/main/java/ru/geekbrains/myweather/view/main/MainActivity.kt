@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import ru.geekbrains.myweather.R
+import ru.geekbrains.myweather.databinding.MainActivityBinding
 import ru.geekbrains.myweather.databinding.MainActivityWebviewBinding
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -17,22 +19,22 @@ import javax.net.ssl.HttpsURLConnection
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: MainActivityWebviewBinding
+    private lateinit var binding: MainActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = MainActivityWebviewBinding.inflate(layoutInflater)
+        binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.ok.setOnClickListener(clickListener)
-        /*setContentView(R.layout.main_activity)
+        //binding.ok.setOnClickListener(clickListener)
+        setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, MainFragment.newInstance())
-                .commitNow()
-        }*/
+                .commitAllowingStateLoss()
+        }
     }
 
-    private var clickListener: View.OnClickListener = object : View.OnClickListener {
+    /*private var clickListener: View.OnClickListener = object : View.OnClickListener {
         @RequiresApi(Build.VERSION_CODES.N)
         override fun onClick(v: View?) {
             try {
@@ -71,5 +73,5 @@ class MainActivity : AppCompatActivity() {
         private fun getLines(reader: BufferedReader): String {
             return reader.lines().collect(Collectors.joining("\n"))
         }
-    }
+    }*/
 }
