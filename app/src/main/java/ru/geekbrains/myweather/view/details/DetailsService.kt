@@ -1,3 +1,4 @@
+/*
 package ru.geekbrains.myweather.view.details
 
 import android.app.IntentService
@@ -117,4 +118,4 @@ class DetailsService(name: String = "DetailsService") : IntentService(name){
     private fun putLoadResult(result: String) {
         broadcastIntent.putExtra(DETAILS_LOAD_RESULT_EXTRA, result)
     }
-}
+}*/
