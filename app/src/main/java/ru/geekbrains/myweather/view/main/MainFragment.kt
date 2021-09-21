@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.snackbar.Snackbar
 import ru.geekbrains.myweather.R
 import ru.geekbrains.myweather.databinding.FragmentMainBinding
 import ru.geekbrains.myweather.model.Weather

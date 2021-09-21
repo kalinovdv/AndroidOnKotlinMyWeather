@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import ru.geekbrains.myweather.R
 import ru.geekbrains.myweather.databinding.FragmentDetailsBinding
@@ -17,9 +16,7 @@ import ru.geekbrains.myweather.viewmodel.AppState.Seccess
 import ru.geekbrains.myweather.viewmodel.DetailsViewModel
 import showSnackBar
 
-private const val REQUEST_API_KEY = "X-Yandex-API-Key"
 private const val MAIN_LINK = "https://api.weather.yandex.ru/v2/informers?"
-private const val PROCESS_ERROR = "Обработка ошибки"
 
 class DetailsFragment : Fragment() {
 
@@ -42,7 +39,7 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         weatherBundle = arguments?.getParcelable(BUNDLE_EXTRA) ?: Weather()
-        viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
+        viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
         viewModel.getWeatherFromRemoteSource(MAIN_LINK + "lat=${weatherBundle.city.lat}&lon=${weatherBundle.city.lon}")
     }
 
