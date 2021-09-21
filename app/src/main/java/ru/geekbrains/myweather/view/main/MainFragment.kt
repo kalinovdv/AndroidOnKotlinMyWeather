@@ -13,6 +13,7 @@ import ru.geekbrains.myweather.model.Weather
 import ru.geekbrains.myweather.view.details.DetailsFragment
 import ru.geekbrains.myweather.viewmodel.AppState
 import ru.geekbrains.myweather.viewmodel.MainViewModel
+import showSnackBar
 
 class MainFragment : Fragment() {
 
@@ -78,15 +79,6 @@ class MainFragment : Fragment() {
                 )
             }
         }
-    }
-
-    private fun View.showSnackBar(
-        text: String,
-        actionText: String,
-        action: (View) -> Unit,
-        length: Int = Snackbar.LENGTH_INDEFINITE
-    ) {
-        Snackbar.make(this, text, length).setAction(actionText, action).show()
     }
 
     private fun changeWeatherDataSet() {

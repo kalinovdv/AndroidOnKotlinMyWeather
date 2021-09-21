@@ -2,12 +2,12 @@ package ru.geekbrains.myweather.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import ru.geekbrains.myweather.model.RepositoryImpl
+import ru.geekbrains.myweather.repository.MainRepositoryImpl
 import java.lang.Thread.sleep
 
 class MainViewModel(
     private val liveDataToObserve: MutableLiveData<Any> = MutableLiveData(),
-    private val repositoryImpl: RepositoryImpl = RepositoryImpl()
+    private val repositoryImpl: MainRepositoryImpl = MainRepositoryImpl()
 ) : ViewModel() {
 
     fun getLiveData() = liveDataToObserve
