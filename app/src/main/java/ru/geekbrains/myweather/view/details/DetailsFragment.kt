@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import coil.api.load
 import ru.geekbrains.myweather.R
 import ru.geekbrains.myweather.databinding.FragmentDetailsBinding
 import ru.geekbrains.myweather.model.Weather
@@ -88,6 +89,7 @@ class DetailsFragment : Fragment() {
             weatherCondition.text = weather.condition
             temperatureValue.text = weather.temperature.toString()
             feelsLikeValue.text = weather.feelsLike.toString()
+            headerIcon.load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
         }
     }
 
