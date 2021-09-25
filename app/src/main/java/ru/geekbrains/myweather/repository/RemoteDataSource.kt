@@ -6,7 +6,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import ru.geekbrains.myweather.BuildConfig
 
-private const val REQUEST_API_KEY = "X-Yandex-API_Key"
+private const val REQUEST_API_KEY = "X-Yandex-API-Key"
 
 class RemoteDataSource {
     fun getWeatherDetails(requestLink: String, callback: Callback) {
