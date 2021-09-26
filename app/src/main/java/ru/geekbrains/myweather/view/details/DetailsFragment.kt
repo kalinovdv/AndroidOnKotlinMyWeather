@@ -79,7 +79,7 @@ class DetailsFragment : Fragment() {
 
     private fun setWeather(weather: Weather) {
         with(binding) {
-            val city = weather.city
+            val city = weatherBundle.city
             cityName.text = city.name
             cityCoordinates.text = String.format(
                 getString(R.string.city_coordinates),
