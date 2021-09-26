@@ -1,5 +1,6 @@
 package ru.geekbrains.myweather.view.details
 
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.api.load
+import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import ru.geekbrains.myweather.R
 import ru.geekbrains.myweather.databinding.FragmentDetailsBinding
 import ru.geekbrains.myweather.model.Weather
@@ -16,8 +18,6 @@ import ru.geekbrains.myweather.viewmodel.AppState
 import ru.geekbrains.myweather.viewmodel.AppState.Seccess
 import ru.geekbrains.myweather.viewmodel.DetailsViewModel
 import showSnackBar
-
-private const val MAIN_LINK = "https://api.weather.yandex.ru/v2/informers?"
 
 class DetailsFragment : Fragment() {
 
@@ -90,6 +90,13 @@ class DetailsFragment : Fragment() {
             temperatureValue.text = weather.temperature.toString()
             feelsLikeValue.text = weather.feelsLike.toString()
             headerIcon.load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
+            weather.icon.let {
+                GlideToVectorYou.justLoadImage(
+                    activity,
+                    Uri.parse("https://yastatic.net/weather/i/icons/blueye/color/svg/${it}.svg"),
+                    weatherIcon
+                )
+            }
         }
     }
 
