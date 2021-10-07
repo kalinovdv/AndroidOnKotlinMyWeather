@@ -13,6 +13,7 @@ import coil.api.load
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import ru.geekbrains.myweather.R
 import ru.geekbrains.myweather.databinding.FragmentDetailsBinding
+import ru.geekbrains.myweather.model.City
 import ru.geekbrains.myweather.model.Weather
 import ru.geekbrains.myweather.viewmodel.AppState
 import ru.geekbrains.myweather.viewmodel.AppState.Seccess
@@ -80,6 +81,7 @@ class DetailsFragment : Fragment() {
     private fun setWeather(weather: Weather) {
         with(binding) {
             val city = weatherBundle.city
+            saveCity(city, weather)
             cityName.text = city.name
             cityCoordinates.text = String.format(
                 getString(R.string.city_coordinates),
@@ -98,6 +100,10 @@ class DetailsFragment : Fragment() {
                 )
             }
         }
+    }
+
+    private fun saveCity(city: City, weather: Weather) {
+        viewModel.saveCityToDB(Weather(city, weather.temperature, weather.feelsLike, weather.condition))
     }
 
     companion object {

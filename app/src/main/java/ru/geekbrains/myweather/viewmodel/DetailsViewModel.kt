@@ -5,8 +5,12 @@ import androidx.lifecycle.ViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import ru.geekbrains.myweather.app.App
+import ru.geekbrains.myweather.model.Weather
 import ru.geekbrains.myweather.model.WeatherDTO
 import ru.geekbrains.myweather.repository.DetailsRepositoryImpl
+import ru.geekbrains.myweather.repository.LocalRepository
+import ru.geekbrains.myweather.repository.LocalRepositoryImpl
 import ru.geekbrains.myweather.repository.RemoteDataSource
 import ru.geekbrains.myweather.utils.convertDtoToModel
 import java.io.IOException
@@ -19,12 +23,17 @@ class DetailsViewModel(
     val detailsLiveData: MutableLiveData<AppState> = MutableLiveData(),
     private val detailsRepositoryImpl: DetailsRepositoryImpl = DetailsRepositoryImpl(
         RemoteDataSource()
-    )
+    ),
+    private val historyRepository: LocalRepository = LocalRepositoryImpl(App.getHistoryDao())
 ) : ViewModel() {
 
     fun getWeatherFromRemoteSource(lat: Double, lon: Double) {
         detailsLiveData.value = AppState.Loading
         detailsRepositoryImpl.getWeatherDetailsFromServer(lat, lon, callback)
+    }
+
+    fun saveCityToDB(weather: Weather) {
+        historyRepository.saveEntity(weather)
     }
 
     private val callback = object : Callback<WeatherDTO> {
