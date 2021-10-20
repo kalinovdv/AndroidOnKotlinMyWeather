@@ -5,4 +5,10 @@
         android:id="@+id/menu_history"
         android:title="@string/menu_title_history"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_content_provider"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="@string/content_provider"
+        app:showAsAction="always"/>
 </menu>
