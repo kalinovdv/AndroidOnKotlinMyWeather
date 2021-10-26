@@ -1,13 +1,20 @@
 package ru.geekbrains.myweather.view.contentprovider
 
 import android.app.AlertDialog
+import android.content.ContentResolver
+import android.content.Context
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import ru.geekbrains.myweather.R
 import ru.geekbrains.myweather.databinding.FragmentContentProviderBinding
 
 const val REQUES_CODE = 42
@@ -48,7 +55,7 @@ class ContentProviderFragment : Fragment() {
                     it,
                     android.Manifest.permission.READ_CONTACTS
                 ) == PackageManager.PERMISSION_GRANTED -> {
-                    //getContacts()
+                    getContacts()
                 }
 
                 shouldShowRequestPermissionRationale(android.Manifest.permission.READ_CONTACTS) -> {
@@ -67,6 +74,35 @@ class ContentProviderFragment : Fragment() {
         }
     }
 
+    private fun getContacts() {
+        context?.let {
+            val contentResolver: ContentResolver = it.contentResolver
+            val cursorWithContact: Cursor? = contentResolver.query(
+                ContactsContract.Contacts.CONTENT_URI,
+                null,
+                null,
+                null,
+                ContactsContract.Contacts.DISPLAY_NAME + " ASC"
+            )
+            cursorWithContact?.let { cursor ->
+                for (i in 0..cursor.count) {
+                    if (cursor.moveToPosition(i)) {
+                        val name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                        addView(it, name)
+                    }
+                }
+            }
+            cursorWithContact?.close()
+        }
+    }
+
+    private fun addView(context: Context, textToShow: String) {
+        binding.containerForContacts.addView(AppCompatTextView(context).apply {
+            text = textToShow
+            textSize = resources.getDimension(R.dimen.main_container_text_size)
+        })
+    }
+
     private fun requestPermission() {
         requestPermissions(arrayOf(android.Manifest.permission.READ_CONTACTS), REQUES_CODE)
     }
@@ -79,7 +115,7 @@ class ContentProviderFragment : Fragment() {
         when (requestCode) {
             REQUES_CODE -> {
                 if ((grantResults.isEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    //getContacts()
+                    getContacts()
                 } else {
                     context?.let {
                         AlertDialog.Builder(it)
