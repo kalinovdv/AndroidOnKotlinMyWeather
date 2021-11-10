@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import ru.geekbrains.myweather.MapsFragment
 import ru.geekbrains.myweather.R
 import ru.geekbrains.myweather.databinding.MainActivityBinding
 import ru.geekbrains.myweather.view.contentprovider.ContentProviderFragment
@@ -48,6 +49,15 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.apply {
                     beginTransaction()
                         .add(R.id.container, ContentProviderFragment.newInstance())
+                        .addToBackStack("")
+                        .commitAllowingStateLoss()
+                }
+                true
+            }
+            R.id.menu_google_maps -> {
+                supportFragmentManager.apply {
+                    beginTransaction()
+                        .add(R.id.container, MapsFragment.newInstance())
                         .addToBackStack("")
                         .commitAllowingStateLoss()
                 }
