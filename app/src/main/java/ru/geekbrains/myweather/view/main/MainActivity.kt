@@ -1,9 +1,12 @@
 package ru.geekbrains.myweather.view.main
 
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import ru.geekbrains.myweather.BuildConfig
 import ru.geekbrains.myweather.googlemaps.GoogleMapsFragment
 import ru.geekbrains.myweather.R
 import ru.geekbrains.myweather.databinding.MainActivityBinding
@@ -27,6 +30,7 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.container, MainFragment.newInstance())
                 .commitAllowingStateLoss()
         }
+        Toast.makeText(this, BuildConfig.TYPE, Toast.LENGTH_LONG).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
