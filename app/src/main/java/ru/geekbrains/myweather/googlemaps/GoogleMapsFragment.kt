@@ -19,8 +19,10 @@ import com.google.android.gms.maps.model.*
 import kotlinx.android.synthetic.main.fragment_google_maps_main.*
 import ru.geekbrains.myweather.R
 import ru.geekbrains.myweather.databinding.FragmentGoogleMapsMainBinding
+import ru.geekbrains.myweather.model.City
+import ru.geekbrains.myweather.model.Weather
+import ru.geekbrains.myweather.view.details.DetailsFragment
 import java.io.IOException
-
 
 
 class GoogleMapsFragment : Fragment() {
@@ -42,7 +44,36 @@ class GoogleMapsFragment : Fragment() {
             addMarkerToArray(latLng)
             drawLine()
         }
+        googleMap.setOnMapClickListener { latLng ->
+            getWeatherOnMap(latLng)
+        }
         activateMyLocation(googleMap)
+    }
+
+    private fun getWeatherOnMap(location: LatLng) {
+        val geocoder = Geocoder(requireContext())
+        val addresses =
+            geocoder.getFromLocation(location.latitude, location.longitude, 1);
+        val name = if (addresses.size > 0) {
+            addresses[0].featureName
+        } else {
+            getString(R.string.t_weather_on_map)
+        }
+        requireActivity().supportFragmentManager.let {
+            with(Bundle()){
+                putParcelable(
+                    DetailsFragment.BUNDLE_EXTRA,
+                    Weather(
+                        City( name = name,lat = location.latitude,lon = location.longitude)
+                    )
+                )
+                it.beginTransaction()
+                    .add(R.id.container, DetailsFragment.newInstance(this))
+                    .addToBackStack("")
+                    .commitAllowingStateLoss()
+
+            }
+        }
     }
 
     override fun onCreateView(
@@ -143,7 +174,10 @@ class GoogleMapsFragment : Fragment() {
 
     private fun activateMyLocation(googleMap: GoogleMap) {
         context?.let {
-            val isPermissionGranted = ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            val isPermissionGranted = ContextCompat.checkSelfPermission(
+                it,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
             googleMap.isMyLocationEnabled = isPermissionGranted
             googleMap.uiSettings.isMyLocationButtonEnabled = isPermissionGranted
         }
